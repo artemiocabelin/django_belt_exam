@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+    <title>Login/Registration</title>
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <fieldset class="form_wrap">
+        <legend>Registration</legend>
+        <form action="/register" method="post">
+            {% csrf_token %}
+            <label class="block_up">First Name: 
+                <input type="text" name="first_name">
+            </label>
+            <label class="block_up">Last Name: 
+                <input type="text" name="last_name">
+            </label>
+            <label class="block_up">Email: 
+                <input type="text" name="email">
+            </label>
+            <label class="block_up">Password: 
+                <input type="password" name="password">
+            </label>
+            <label class="block_up">Confirm Password: 
+                <input type="password" name="conf_pass">
+            </label>
+            <label>Date of Birth:
+                <input type="date" name="birthday">
+            </label>
+            <input type="submit" value="Register">
+        </form>
+    </fieldset>
+    <fieldset class="form_wrap">
+        <legend>Login</legend>
+        <form action="/login" method="post">
+            {% csrf_token %}
+            <label class="block_up">Email: 
+                <input type="text" name="email">
+            </label>
+            <label class="block_up">Password: 
+                <input type="password" name="password">
+            </label>
+            <input type="submit" value="Login">
+        </form>
+    </fieldset>
+</body>
+</html>

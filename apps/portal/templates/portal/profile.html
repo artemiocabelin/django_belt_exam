@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+</head>
+<body>
+    <a href="/quotes">Dashboard</a>
+    <a href="/logoff">Log Off</a>
+    <fieldset>
+        <h1>Posts by: {{user.first_name}}</h1>
+        <p>Count: {{user.quotes.count}}</p>        
+    </fieldset>
+
+    <fieldset>
+        <ul>
+            {% for quote in quotes %}
+            <li>
+                <span style="color: red;">{{quote.title}}:</span> {{quote.content}}
+            </li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+</body>
+</html>

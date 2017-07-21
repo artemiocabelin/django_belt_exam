@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+    <title>Quotes</title>
+</head>
+<body>
+    <a href="/logoff">Log Off</a>
+    <h1>Welcome, {{user.first_name}}!</h1>
+    <fieldset>
+        <legend><strong>Your Favorites</strong></legend>
+        <ul>
+            {% for favorite in favorites %}
+            <li>
+                <p>{{favorite.title}}: {{ favorite.content }}</p>
+                <p>Posted by: <a href="/users/{{favorite.user.id}}">{{favorite.user.first_name}}</a></p>
+                <form action="/remove/{{current_user_id}}" method="post">
+                    {%csrf_token%}
+                    <input type="hidden" name="quote" value="{{favorite.id}}">
+                    <input type="submit" value="Remove From My List">
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+
+
+    <fieldset>
+        <legend><strong>Contribute a Quote</strong></legend>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="/process" method="post">
+            {%csrf_token%}
+            <label class="block_up">Quoted by:
+                <input type="text" name="title">
+            </label>
+            <label class="block_up">Message:
+                <textarea class="block_up" name="content" id="" cols="30" rows="10"></textarea>
+            </label>
+            <input type="submit" value="Submit">
+        </form>
+    </fieldset>
+
+
+    <fieldset id="quote_list">
+        <legend><strong>Quotable Quotes</strong></legend>
+        <ul>
+            {% for quote in quotes %}
+            <li>
+                <p>{{quote.title}}: {{ quote.content }}</p>
+                <p>Posted by: <a href="/users/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
+                <form action="/favorite/{{current_user_id}}" method="post">
+                    {%csrf_token%}
+                    <input type="hidden" name="quote" value="{{quote.id}}">
+                    <input type="submit" value="Add to My List">
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+
+</body>
+</html>
